@@ -18,21 +18,17 @@
             background-color: var(--dark);
             color: var(--sub-text);
             font-family: 'Share Tech Mono', monospace;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             overflow-x: hidden;
         }
 
-        /* --- ЭКРАН ВХОДА --- */
+        /* ЭКРАН ВХОДА */
         #login-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: var(--dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             z-index: 9999;
-            transition: 0.8s;
         }
 
         .login-card {
@@ -40,65 +36,159 @@
             border: 1px solid var(--red);
             padding: 40px;
             text-align: center;
-            box-shadow: 0 0 40px rgba(255, 77, 77, 0.1);
-            max-width: 400px;
             width: 90%;
+            max-width: 400px;
         }
 
-        .login-card h2 {
-            color: var(--red);
-            margin-bottom: 25px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-        }
+        .login-card h2 { color: var(--red); margin-bottom: 25px; text-transform: uppercase; }
 
         .login-card input {
-            background: #000;
-            border: 1px solid #333;
-            color: var(--text);
-            padding: 12px;
-            width: 80%;
-            text-align: center;
-            font-size: 1.5rem;
-            outline: none;
-            margin-bottom: 20px;
-            font-family: 'Share Tech Mono', monospace;
-        }
-
-        .login-card input:focus {
-            border-color: var(--text);
-            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+            background: #000; border: 1px solid #333; color: var(--text);
+            padding: 12px; width: 80%; text-align: center; font-size: 1.5rem;
+            outline: none; margin-bottom: 20px; font-family: 'Share Tech Mono', monospace;
         }
 
         .login-btn {
-            background: transparent;
-            color: var(--red);
-            border: 1px solid var(--red);
-            padding: 10px 30px;
-            cursor: pointer;
-            font-family: 'Share Tech Mono', monospace;
-            font-weight: bold;
+            background: transparent; color: var(--red); border: 1px solid var(--red);
+            padding: 10px 30px; cursor: pointer; font-family: 'Share Tech Mono', monospace;
             text-transform: uppercase;
-            transition: 0.3s;
         }
 
-        .login-btn:hover {
-            background: var(--red);
-            color: white;
-            box-shadow: 0 0 20px var(--red);
-        }
-
-        /* --- ГЛАВНЫЙ ЭКРАН --- */
+        /* КОНТЕЙНЕР */
         .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: none;
-            opacity: 0;
-            transition: 1.5s;
+            max-width: 1100px; margin: 40px auto; padding: 0 20px;
+            display: none; opacity: 0; transition: 1.5s;
         }
 
-        .header {
-            text-align: center;
-            border-left: 5px solid var(--red);
-            border-right
+        .header { text-align: center; border-left: 5px solid var(--red); border-right: 5px solid var(--red); padding: 30px; margin-bottom: 50px; }
+        .header h1 { color: var(--red); margin: 0; }
+
+        /* СЕТКА КАРТОЧЕК */
+        .victim-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card { background: var(--gray); border: 1px solid #222; padding: 20px; cursor: pointer; text-align: center; }
+        .card img { width: 100%; height: 200px; object-fit: cover; filter: grayscale(1); }
+        .card:hover { border-color: var(--text); }
+
+        /* МОДАЛКА */
+        .modal {
+            display: none; position: fixed; z-index: 10000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--gray); margin: 5% auto; padding: 35px;
+            border: 1px solid var(--text); width: 90%; max-width: 700px; position: relative;
+        }
+
+        .close { position: absolute; right: 20px; top: 10px; color: var(--red); font-size: 35px; cursor: pointer; }
+        .info-label { color: var(--text); font-weight: bold; }
+        .stamp { border: 2px solid var(--red); color: var(--red); padding: 5px 15px; display: inline-block; transform: rotate(-10deg); margin: 20px 0; }
+        #errorNote { color: #ff0; margin-top: 15px; display: none; }
+    </style>
+</head>
+<body>
+
+<div id="login-overlay">
+    <div class="login-card">
+        <h2>SYSTEM LOCK</h2>
+        <input type="password" id="passInput" placeholder="PASSCODE">
+        <br>
+        <button class="login-btn" onclick="checkAccess()">DECRYPT</button>
+        <p id="errorNote">FATAL ERROR: INVALID ACCESS CODE</p>
+    </div>
+</div>
+
+<div class="container" id="mainContainer">
+    <div class="header">
+        <h1>EINOLD_DATABASE_V4.0</h1>
+        <p style="color: var(--text);">ACCESS: ADMIN</p>
+    </div>
+
+    <div class="victim-grid">
+        <div class="card" onclick="openModal('mussolini')">
+            <img src="mussolini.jpg" onerror="this.src='https://via.placeholder.com/300x200?text=NO_IMAGE'">
+            <h3>Мусолини Мухаммед</h3>
+            <p>1953 — 2020</p>
+        </div>
+        <div class="card" onclick="openModal('danil')">
+            <img src="danil.jpg" onerror="this.src='https://via.placeholder.com/300x200?text=NO_IMAGE'">
+            <h3>Данил Такфтильевич</h3>
+            <p>1988 — 2021</p>
+        </div>
+        <div class="card" onclick="openModal('anastasia')">
+            <img src="anastasia.jpg" onerror="this.src='https://via.placeholder.com/300x200?text=NO_IMAGE'">
+            <h3>Анастасия Землеройка</h3>
+            <p>1939 — 2026</p>
+        </div>
+        <div class="card" onclick="openModal('elena')">
+            <img src="elena.jpg" onerror="this.src='https://via.placeholder.com/300x200?text=NO_IMAGE'">
+            <h3>Елена Чистякова</h3>
+            <p>1937 — 2025</p>
+        </div>
+        <div class="card" onclick="openModal('karman')">
+            <img src="karman.jpg" onerror="this.src='https://via.placeholder.com/300x200?text=NO_IMAGE'">
+            <h3>Карман Николаевич</h3>
+            <p>1993 — 2030</p>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<script>
+    const SECRET = "1488";
+
+    function checkAccess() {
+        const val = document.getElementById('passInput').value;
+        const overlay = document.getElementById('login-overlay');
+        const container = document.getElementById('mainContainer');
+        const error = document.getElementById('errorNote');
+
+        if (val === SECRET) {
+            overlay.style.display = "none";
+            container.style.display = "block";
+            setTimeout(() => { container.style.opacity = "1"; }, 50);
+        } else {
+            error.style.display = "block";
+        }
+    }
+
+    document.getElementById('passInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkAccess(); });
+
+    const victims = {
+        mussolini: { name: "Мусолини Мухаммед", img: "mussolini.jpg", dates: "1953 — 2020", history: "Был известен как любитель Кефира. Зашёл в комнату к Арчибальду и выпил странной жидкости.", lastSeen: "У дома Бабки Хулиганки.", dinner: "Сперма Арчибальда из его кружки.", deathReason: "Отравление Спермой." },
+        danil: { name: "Данил Такфтильевич", img: "danil.jpg", dates: "1988 — 2021", history: "Любитель мух. Часто убивал их, но когда его раскрыли, решил переехать в Геленждик и посмотреть Три Кота.", lastSeen: "В магазине секс кукол.", dinner: "Муха.", deathReason: "Укус Ядовитой мухи Цэцэ." },
+        anastasia: { name: "Анастасия Землеройка", img: "anastasia.jpg", dates: "1939 — 2026", history: "Изучала аномалии Деда Хурмата. Зашла в сарай №4.", lastSeen: "Был обнаружен подкоп под сараем.", dinner: "Неизвестно.", deathReason: "Труп найден в сарае №4." },
+        elena: { name: "Елена Чистякова", img: "elena.jpg", dates: "1937 — 2025", history: "Нашла старые архивы Эйнола. Её призрак ходит по лицею.", lastSeen: "В архиве лицея.", dinner: "Мёд и Соль.", deathReason: "Была убита проклятой книгой." },
+        karman: { name: "Карман Николаевич", img: "karman.jpg", dates: "1993 — 2030", history: "Полез в карман к Руслану, когда тот курил.", lastSeen: "Курил Гажду.", dinner: "Пицца, бургеры, коньяк.", deathReason: "Руслан превратил его в улитку." }
+    };
+
+    function openModal(id) {
+        const v = victims[id];
+        document.getElementById('modalBody').innerHTML = `
+            <h2>${v.name}</h2>
+            <img src="${v.img}" onerror="this.src='https://via.placeholder.com/400x300?text=DATA_CORRUPTED'" style="width:100%; max-height:350px; object-fit:cover; margin-bottom:15px; border:1px solid var(--text);">
+            <div class="stamp">TERMINATED</div>
+            <p><span class="info-label">ГОДЫ:</span> ${v.dates}</p>
+            <p><span class="info-label">ОПИСАНИЕ:</span> ${v.history}</p>
+            <p><span class="info-label">СМЕРТЬ:</span> ${v.deathReason}</p>
+        `;
+        document.getElementById('myModal').style.display = "block";
+    }
+
+    function closeModal() { document.getElementById('myModal').style.display = "none"; }
+    window.onclick = e => { if (e.target.className === 'modal') closeModal(); }
+</script>
+</body>
+</html>
